@@ -1,0 +1,33 @@
+/* Navbar styling */
+.navbar {
+  position: fixed; /* Fixes the navbar to the top */
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: white; /* Background color for the navbar */
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* Shadow for depth */
+  z-index: 1000; /* Ensures it stays above other content */
+  height: 70px; /* Adjusted height for the navbar */
+  display: flex; /* Use flexbox for alignment */
+  align-items: center; /* Vertically center content */
+  padding: 0 15px; /* Horizontal padding */
+}
+
+/* Navbar links styling */
+.navbar a {
+  color: #333; /* Link color */
+  text-decoration: none; /* Removes underline */
+  padding: 10px 12px; /* Padding for links */
+  font-size: 16px; /* Keep font size the same */
+}
+
+.navbar img {
+  width: 35px; /* Logo size */
+  height: 35px; /* Logo size */
+  margin-left: 5px; /* Margin for the logo */
+  margin-right: 10px; /* Margin for the logo */
+}
+
+.navbar a:hover {
+  color: #f1c40f; /* Change color on hover */
+}

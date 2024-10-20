@@ -7,17 +7,32 @@ const Signup = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setErrorMessage('');
+
+    // Validate password and email before making a request
+    const emailPattern = /^[a-zA-Z0-9._%+-]+@(gmail\.com|yahoo\.com)$/;
+    if (!emailPattern.test(email)) {
+      setErrorMessage('Email must end with @gmail.com or @yahoo.com');
+      return;
+    }
+
+    if (password.length < 6) {
+      setErrorMessage('Password must be at least 6 characters long');
+      return;
+    }
 
     if (password !== confirmPassword) {
-      alert('Passwords do not match!');
+      setErrorMessage('Passwords do not match!');
       return;
     }
 
     try {
-      const response = await fetch('http://localhost:5000/Signup', {
+      const response = await fetch('/Signup', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -29,7 +44,7 @@ const Signup = () => {
 
       if (response.ok) {
         alert('Registration successful!');
-        navigate("/Signup"); // Use navigate instead of history.push
+        navigate("/Login"); // Use navigate instead of history.push
       } else {
         alert(data.error || 'Registration failed');
       }
@@ -76,6 +91,11 @@ const Signup = () => {
               onChange={(e) => setConfirmPassword(e.target.value)} // Set confirmPassword state on input change
             />
           </div>
+          {errorMessage && (
+          <div className="error-message">
+            {errorMessage} {/* Display error message */}
+          </div>
+        )}
           <button type="submit">Register</button> {/* Ensure button type is submit */}
           <div className="register-link">
             <p>Already have an account? <Link to="/login">Login</Link></p>

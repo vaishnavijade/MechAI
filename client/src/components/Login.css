@@ -130,3 +130,68 @@ form .register-link {
 .register-link p a:hover {
     text-decoration: underline;
 }
+.error-message {/*error msgs when dng registration*/
+    color: red;
+    font-size: 0.8rem; /* Adjust the size as needed (e.g., 0.8rem, 12px, etc.) */
+    margin-top: 5px; /* Optional: add some spacing above the message */
+  }
+
+/* Style for the error page */
+#notfound {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Full height of the viewport */
+    position: relative;
+    text-align: center;
+  }
+  
+  /* Main container for the text */
+  .notfound {
+    position: relative;
+    z-index: 2;
+  }
+  
+  .notfound-404 {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    opacity: 0.1; /* Makes it like a watermark */
+  }
+  
+  /* Large, light blue 404 watermark */
+  .notfound-404 h1 {
+    font-size: 15rem;
+    color: #007bff; /* Light blue */
+    margin: 0;
+  }
+  
+  /* Heading style */
+  .notfound h2 {
+    font-size: 2rem;
+    color: #343a40;
+    margin-bottom: 20px;
+    z-index: 2;
+    position: relative;
+  }
+  
+  /* Link style */
+  .homepage-link {
+    font-size: 1.2rem;
+    color: #007bff;
+    text-decoration: none;
+    padding: 10px 20px;
+    border: 1px solid #007bff;
+    border-radius: 5px;
+    z-index: 2;
+    transition: background-color 0.3s ease;
+  }
+  
+  /* Hover effect for the link */
+  .homepage-link:hover {
+    background-color: #007bff;
+    color: #fff;
+  }
+  

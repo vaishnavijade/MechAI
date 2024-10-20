@@ -1,8 +1,11 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom'; // useNavigate for redirect
 import './Login.css';
+import { UserContext } from '../App';
 
 const Login = () => {
+  const {state,dispatch} = useContext(UserContext);
+
   const navigate = useNavigate(); // Use navigate for redirection
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -11,7 +14,7 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch('http://localhost:5000/Login', {
+      const response = await fetch('/Login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -22,6 +25,7 @@ const Login = () => {
       const data = await response.json();
 
       if (response.ok) {
+        dispatch({type:"USER",payload:true})
         alert('Login successful!');
         navigate('/'); // Navigate to dashboard or appropriate page
       } else {

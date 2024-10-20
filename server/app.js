@@ -16,26 +16,18 @@ app.use(express.json()); // To parse JSON bodies
 // Link to router files
 app.use(require('./router/auth')); // Make sure this is the correct path to auth.js
 
-// Middleware for specific routes (if needed)
-const middleware = (req, res, next) => {
-    console.log('Middleware executed');
-    next();
-};
 
-// Routes
-app.get('/', (req, res) => {
-    res.send('Hello World from the server!');
-});
 
 app.get('/Home', (req, res) => {
     res.send('home!');
 });
 
-app.get('/About', middleware, (req, res) => {
-    res.send('about us!');
-});
+// app.get('/About', (req, res) => {
+//     res.send('about us!');
+// });
 
 app.get('/Contact', (req, res) => {
+    // res.cookie("test",'testing');
     res.send('our services');
 });
 
@@ -45,6 +37,10 @@ app.get('/Login', (req, res) => {
 
 app.get('/Signup', (req, res) => {
     res.send('signup page');
+});
+
+app.get('/Logout', (req, res) => {
+    res.send('logout page');
 });
 
 // Start server

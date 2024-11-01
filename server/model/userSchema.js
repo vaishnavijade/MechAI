@@ -1,38 +1,46 @@
 const jwt = require('jsonwebtoken');
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
+
 const userSchema = new mongoose.Schema({
     email:{
         type:String,
         required:true,
-        unique: true
+        unique: true,
     },
     password:{
         type:String,
-        required:true
-    },
-    cpassword:{
-        type:String,
-        required:true
+        required:true,
     },
     tokens:[
         {
             token: {
                 type:String,
-                required:true
+                required:true,
             }
         }
-    ]
-
-})
-
-// hashing pwd
-userSchema.pre('save',async function(next){
-    if(this.isModified('password')){
-        this.password =await bcrypt.hash(this.password,12);
-        this.cpassword = await bcrypt.hash(this.cpassword,12);
+    ],
+    verified:{
+        type:Boolean, 
+        default:false,
+    },
+    verificationCode:{
+        type:String,
     }
-    next(); 
+},{timestamps:true})
+
+// Hashing password before saving
+userSchema.pre('save', async function (next) {
+    if (this.isModified('password')) {
+        this.password = await bcrypt.hash(this.password, 10);
+    }
+
+    // Generate and set a random verification code if the user is not verified
+    if (!this.verified && !this.verificationCode) {
+        this.verificationCode = Math.floor(100000 + Math.random() * 900000).toString(); // 6-digit random code
+    }
+
+    next();
 });
 
 //to generate token
@@ -45,6 +53,7 @@ userSchema.methods.generateAuthToken = async function () {
 
     }catch(err){
         console.log(err);
+        throw new Error('Token generation failed'); // Throw error for better error handling
     }
     
 }

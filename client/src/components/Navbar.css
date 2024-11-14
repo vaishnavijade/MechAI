@@ -1,33 +1,62 @@
 /* Navbar styling */
 .navbar {
-  position: fixed; /* Fixes the navbar to the top */
+  position: fixed;
   top: 0;
   left: 0;
   right: 0;
-  background-color: white; /* Background color for the navbar */
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* Shadow for depth */
-  z-index: 1000; /* Ensures it stays above other content */
-  height: 70px; /* Adjusted height for the navbar */
-  display: flex; /* Use flexbox for alignment */
-  align-items: center; /* Vertically center content */
-  padding: 0 15px; /* Horizontal padding */
+  background-color: #000000;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  z-index: 1000;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  padding: 0 15px;
 }
 
-/* Navbar links styling */
-.navbar a {
-  color: #333; /* Link color */
-  text-decoration: none; /* Removes underline */
-  padding: 10px 12px; /* Padding for links */
-  font-size: 16px; /* Keep font size the same */
+/* Navbar brand styling */
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  color: #ffffff;
+  text-decoration: none;
 }
 
 .navbar img {
-  width: 35px; /* Logo size */
-  height: 35px; /* Logo size */
-  margin-left: 5px; /* Margin for the logo */
-  margin-right: 10px; /* Margin for the logo */
+  width: 35px;
+  height: 35px;
+  margin-right: 10px;
 }
 
+/* Navbar links styling */
+.navbar-nav {
+  margin-left: auto; /* Pushes navbar items to the right */
+  display: flex;
+}
+
+.navbar a {
+  color: #ffffff;
+  text-decoration: none;
+  padding: 10px 12px;
+  font-size: 16px;
+}
+
+/* Link hover effect */
 .navbar a:hover {
-  color: #f1c40f; /* Change color on hover */
+  color: #f39c12;
+}
+
+/* Responsive styles */
+@media (max-width: 991px) {
+  .navbar {
+    height: auto;
+    padding: 10px 15px;
+  }
+  .navbar-nav {
+    display: block; /* Display items in a block format on small screens */
+    width: 100%;
+  }
+  .navbar-nav .nav-item {
+    text-align: center;
+    padding: 10px 0;
+  }
 }

@@ -1,13 +1,27 @@
-import React from 'react'
+import React from 'react';
+import './Home.css';
+import carImage from '../images/carimgg.jpg'; // Adjust the path as needed
 
 function Home() {
   return (
-    <div>
-        {/* <p className="pt-5">Welcome to Mech Ai</p> */}
-        <h3>Welcome to Mech Ai</h3>
-        <h3>Your Virtual Mechanic: Expert Car Diagnostics at Your Fingertips!</h3>
+    <div className="home">
+      <section
+        className="hero"
+        style={{ backgroundImage: `url(${carImage})` }}
+      >
+        <div className="hero-content">
+          <h1>Revolutionize Your Car Diagnostics</h1>
+          <p>Utilize AI to diagnose and resolve car issues with ease.</p>
+          <button 
+            className="get-started-btn"
+            onClick={() => window.location.href = '/chatbot'}
+          >
+            Get Started
+          </button>
+        </div>
+      </section>
     </div>
-  )
+  );
 }
 
-export default Home
+export default Home;

@@ -15,23 +15,23 @@ router.get("/", (req, res) => {
 
 // Signup route
 router.post("/Signup", async (req, res) => {
-  const { email, password, cpassword } = req.body;
+  const { username,email, password } = req.body;
 
   // Validations for required fields
-  if (!email || !password || !cpassword) {
+  if (!username || !email || !password ) {
     return res
       .status(422)
       .json({ success: false, error: "Fill the fields properly" });
   }
 
   // Email pattern validation for specific domains
-  const emailPattern = /^[a-zA-Z0-9._%+-]+@(gmail\.com|yahoo\.com)$/;
+  const emailPattern = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
   if (!emailPattern.test(email)) {
     return res
       .status(422)
       .json({
         success: false,
-        error: "Email must end with @gmail.com or @yahoo.com",
+        error: "Email must end with @gmail.com ",
       });
   }
 
@@ -55,15 +55,9 @@ router.post("/Signup", async (req, res) => {
         .json({ success: false, error: "Email already exists" });
     }
 
-    // Ensure passwords match
-    if (password !== cpassword) {
-      return res
-        .status(422)
-        .json({ success: false, error: "Passwords do not match" });
-    }
-
     // Create a new user
     const user = new User({
+      username,
       email,
       password,
       verificationCode: Math.floor(100000 + Math.random() * 900000).toString(),
@@ -163,14 +157,15 @@ router.post("/Login", async (req, res) => {
       const token = await userLogin.generateAuthToken();
       console.log(token);
 
-      res.cookie("jwtoken", token, {
-        expires: new Date(Date.now() + 25892000000), // Cookie expiration time set
-        httpOnly: true,
-      });
+      // res.cookie("jwtoken", token, {
+      //   expires: new Date(Date.now() + 25892000000), // Cookie expiration time set
+      //   httpOnly: true,
+      // });
 
       return res.json({
         success: true,
         message: "User signed in successfully",
+        token,  // Send the token in the response body
       });
     } else {
       return res

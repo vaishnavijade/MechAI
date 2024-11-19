@@ -4,19 +4,21 @@ import './Login.css';
 
 const Signup = () => {
   const navigate = useNavigate();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-  const [otp, setOtp] = useState('');
-  const [isOtpModalVisible, setIsOtpModalVisible] = useState(false); // Modal visibility
+  const [username, setUsername] = useState('');  // State for username
+  const [email, setEmail] = useState('');  // State for email
+  const [password, setPassword] = useState('');  // State for password
+  const [errorMessage, setErrorMessage] = useState('');  // Error message state
+  const [isLoading, setIsLoading] = useState(false);  // Loading state
+  const [otp, setOtp] = useState('');  // State for OTP input
+  const [isOtpModalVisible, setIsOtpModalVisible] = useState(false);  // OTP Modal visibility
 
+  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     setErrorMessage('');
     setIsLoading(true);
 
+    // Email validation
     const emailPattern = /^[a-zA-Z0-9._%+-]+@(gmail\.com|yahoo\.com)$/;
     if (!emailPattern.test(email)) {
       setErrorMessage('Email must end with @gmail.com or @yahoo.com');
@@ -24,45 +26,46 @@ const Signup = () => {
       return;
     }
 
+    // Password validation
     if (password.length < 6) {
       setErrorMessage('Password must be at least 6 characters long');
       setIsLoading(false);
       return;
     }
 
-    if (password !== confirmPassword) {
-      setErrorMessage('Passwords do not match!');
-      setIsLoading(false);
-      return;
-    }
-
     try {
+      // Make a POST request to your backend for registration
       const response = await fetch('/Signup', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password, cpassword: confirmPassword }),
+        body: JSON.stringify({ username, email, password }),
       });
 
       const data = await response.json();
 
+      // If registration fails, show the error message
       if (!data.success) {
-        setErrorMessage(data.error);
+        setErrorMessage(data.error || 'Something went wrong!');
         setIsLoading(false);
         return;
       }
 
+      // Show success message and open OTP modal
       alert('Registration successful! Please verify your email.');
-      setIsOtpModalVisible(true); // Show OTP modal
+      setIsOtpModalVisible(true);  // Show OTP modal
       setIsLoading(false);
     } catch (error) {
-      setErrorMessage('Something went wrong!');
+      setErrorMessage('Something went wrong! Please try again.');
       setIsLoading(false);
     }
   };
 
+  // Handle OTP verification
   const handleOtpSubmit = async (e) => {
     e.preventDefault();
+
     try {
+      // Make a POST request to verify the OTP
       const response = await fetch('/verifyemail', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -70,19 +73,16 @@ const Signup = () => {
       });
 
       const data = await response.json();
+
       if (data.success) {
         alert('Email verified successfully! You can now log in.');
-        navigate('/login');
+        navigate('/login');  // Redirect to login page after successful verification
       } else {
-        // Check for specific message
-        if (data.message === "Incorrect code") {
-          alert('Incorrect code. Please try again.');
-        } else {
-          alert(data.message || 'An error occurred. Try again.');
-        }
+        // Show specific message if the OTP is incorrect
+        alert(data.message || 'An error occurred. Please try again.');
       }
     } catch (error) {
-      alert('Something went wrong!');
+      alert('Something went wrong! Please try again.');
     }
   };
 
@@ -92,6 +92,17 @@ const Signup = () => {
         {/* Registration Form */}
         <form onSubmit={handleSubmit}>
           <h1>Register</h1>
+          <div className="input-box">
+            <input
+              type="text"
+              name="username"
+              placeholder="Username"
+              required
+              autoComplete="off"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+            />
+          </div>
           <div className="input-box">
             <input
               type="email"
@@ -112,17 +123,6 @@ const Signup = () => {
               autoComplete="off"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-            />
-          </div>
-          <div className="input-box">
-            <input
-              type="password"
-              name="confirmPassword"
-              placeholder="Confirm Password"
-              required
-              autoComplete="off"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
             />
           </div>
           {errorMessage && <div className="error-message">{errorMessage}</div>}

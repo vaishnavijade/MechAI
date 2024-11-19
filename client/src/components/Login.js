@@ -4,7 +4,7 @@ import './Login.css';
 import { UserContext } from '../App';
 
 const Login = () => {
-  const {state,dispatch} = useContext(UserContext);
+  const { state, dispatch } = useContext(UserContext); // Access state and dispatch
 
   const navigate = useNavigate(); // Use navigate for redirection
   const [email, setEmail] = useState('');
@@ -25,9 +25,15 @@ const Login = () => {
       const data = await response.json();
 
       if (response.ok) {
-        dispatch({type:"USER",payload:true})
+        
+        // Update the global user state using context (optional)
+        dispatch({ type: 'USER', payload: true });
+        
+         // Store JWT token in localStorage
+         localStorage.setItem('authToken', data.token);
+
         alert('Login successful!');
-        navigate('/'); // Navigate to dashboard or appropriate page
+        navigate('/'); // Navigate to the homepage or dashboard
       } else {
         alert(data.error || 'Login failed');
       }

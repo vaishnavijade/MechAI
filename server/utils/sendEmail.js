@@ -11,5 +11,5 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-
+// connection to smtp server(gmail)
 module.exports = { transporter };

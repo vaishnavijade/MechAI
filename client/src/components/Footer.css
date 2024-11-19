@@ -1,0 +1,47 @@
+/* src/components/Footer.css */
+
+/* Ensure html and body take up the full height */
+html, body {
+    height: 100%;
+    margin: 0;
+  }
+  
+  .main-wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+  
+  .main-content {
+    flex-grow: 1; /* This ensures content takes up the available space */
+  }
+  
+  .footer {
+    background-color: transparent; /* Make the background transparent */
+    color: white;
+    text-align: center; /* Horizontally center the text */
+    padding: 20px;
+    position: relative;
+    width: 100%;
+    bottom: 0;
+    margin-top: auto; /* Forces the footer to stay at the bottom */
+    position: absolute; /* Ensure it stays at the bottom */
+    left: 0;
+    right: 0;
+  }
+  
+  .footer-content p {
+    margin: 0;
+    padding: 0;
+    font-size: 14px;
+  }
+  
+  .footer a {
+    color: white;
+    text-decoration: none;
+  }
+  
+  .footer a:hover {
+    text-decoration: underline;
+  }
+  

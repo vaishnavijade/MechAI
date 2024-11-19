@@ -1,6 +1,7 @@
 const { Verification_Email_Template, Welcome_Email_Template } = require("./EmailTemplate.js");
 const { transporter } = require("./sendEmail.js");
 
+// responsible for sending an email
 const sendVerificationCode = async (email, verificationCode) => {
   try {
     const info = await transporter.sendMail({

@@ -179,53 +179,82 @@ router.post("/Login", async (req, res) => {
       .json({ success: false, error: "Login failed. Try again later." });
   }
 });
+// Fetch user profile details
+router.get("/profile", authenticate, async (req, res) => {
+  try {
+    const user = await User.findById(req.userId).select("username email createdAt");
+    if (!user) {
+      return res.status(404).json({ success: false, message: "User not found." });
+    }
 
-// Request OTP for password reset
-router.post("/request-password-reset", async (req, res) => {
+    res.status(200).json({ success: true, user });
+  } catch (error) {
+    console.error("Error fetching profile:", error);
+    res.status(500).json({ success: false, message: "Internal server error." });
+  }
+});
+
+
+// Update user profile route
+router.put("/user-profile", authenticate, async (req, res) => {
+  const { username } = req.body; // Only expect username in the request body
+
+  if (!username) {
+    return res.status(400).json({ success: false, message: "Username is required." });
+  }
+
+  try {
+    // Find the user by the authenticated user ID and update only the username
+    const updatedUser = await User.findByIdAndUpdate(
+      req.userId,
+      { username }, // Only update username
+      { new: true } // Return the updated user object
+    );
+
+    if (!updatedUser) {
+      return res.status(404).json({ success: false, message: "User not found." });
+    }
+
+    res.status(200).json({ success: true, message: "Profile updated successfully!", user: updatedUser });
+  } catch (error) {
+    console.error("Error updating profile:", error);
+    res.status(500).json({ success: false, message: "Internal server error." });
+  }
+});
+
+
+
+// Forgot Password - Generate OTP and Send Email
+router.post("/forgot-password", async (req, res) => {
   const { email } = req.body;
 
-  try {
-    const user = await User.findOne({ email });
+  if (!email) {
+    return res.status(400).json({ success: false, message: "Email is required." });
+  }
 
+  try {
+    // Check if user exists in the database
+    const user = await User.findOne({ email });
     if (!user) {
-      return res
-        .status(400)
-        .json({ success: false, message: "User not found" });
+      return res.status(404).json({ success: false, message: "User not found." });
     }
 
-    // Generate a new OTP and save it to the user
-    user.verificationCode = Math.floor(
-      100000 + Math.random() * 900000
-    ).toString();
+    // Generate a random OTP
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    user.verificationCode = otp; // Save OTP in user document
     await user.save();
 
-    // Send OTP email
-    await sendVerificationCode(email, user.verificationCode);
+    // Send OTP via email
+    await sendVerificationCode(email, otp);
 
-    res.json({ success: true, message: "OTP sent to your email" });
+    return res.status(200).json({ success: true, message: "OTP sent successfully!" });
   } catch (error) {
-    res.status(500).json({ success: false, message: "Internal server error" });
+    console.error("Error in forgot-password:", error);
+    return res.status(500).json({ success: false, message: "Something went wrong!" });
   }
 });
 
-// Verify OTP for password reset
-router.post("/verify-reset-otp", async (req, res) => {
-  const { email, otp } = req.body;
-
-  try {
-    const user = await User.findOne({ email });
-
-    if (!user || user.verificationCode !== otp) {
-      return res.status(400).json({ success: false, message: "Invalid OTP" });
-    }
-
-    res.json({ success: true, message: "OTP verified" });
-  } catch (error) {
-    res.status(500).json({ success: false, message: "Internal server error" });
-  }
-});
-
-// Reset password route
+/// Reset password route
 router.post("/reset-password", async (req, res) => {
   const { email, newPassword } = req.body;
   console.log("New Password:", newPassword);
@@ -261,6 +290,24 @@ router.post("/reset-password", async (req, res) => {
   }
 });
 
+// Verify OTP for password reset
+router.post("/verify-reset-otp", async (req, res) => {
+  const { email, otp } = req.body;0
+
+  try {
+    const user = await User.findOne({ email });
+
+    if (!user || user.verificationCode !== otp) {
+      return res.status(400).json({ success: false, message: "Invalid OTP" });
+    }
+
+    res.json({ success: true, message: "OTP verified" });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Internal server error" });
+  }
+});
+
+
 
 // About route - requires authentication
 router.get("/about", authenticate, (req, res) => {
@@ -275,4 +322,10 @@ router.get("/logout", (req, res) => {
   res.status(200).send("User logged out");
 });
 
-module.exports = router;
+//get user data for contact and home page
+router.get("/getdata",authenticate,(req,res)=>{
+  console.log('hello my contact');
+  res.send(req.rootUser);
+})
+
+module.exports = router;  

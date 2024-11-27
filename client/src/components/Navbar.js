@@ -1,8 +1,7 @@
-
 import React, { useContext } from "react";
 import "bootstrap/dist/css/bootstrap.css";
 import { NavLink } from "react-router-dom";
-import logo from "../images/bwlogo.png";
+import logo from "../images/LogoT.png";
 import './Navbar.css';
 import { UserContext } from '../App';
 
@@ -12,27 +11,29 @@ const Navbar = () => {
   const RenderMenu = () => (
     <>
       <li className="nav-item">
-        <NavLink className="nav-link" to="/">Home</NavLink>
+        <NavLink className="nav-link" to="/" activeclassname="active">Home</NavLink>
       </li>
       <li className="nav-item">
-        <NavLink className="nav-link" to="/about">About Us</NavLink>
+        <NavLink className="nav-link" to="/about" activeclassname="active">About</NavLink>
       </li>
       <li className="nav-item">
-        <NavLink className="nav-link" to="/contact">Contact</NavLink>
+        <NavLink className="nav-link" to="/contact" activeclassname="active">Contact Us</NavLink>
       </li>
       {!state ? (
         <>
           <li className="nav-item">
-            <NavLink className="nav-link" to="/login">Login</NavLink>
+            <NavLink className="nav-link" to="/login" activeclassname="active">Login</NavLink>
           </li>
           <li className="nav-item">
-            <NavLink className="nav-link" to="/signup">Registration</NavLink>
+            <NavLink className="nav-link" to="/signup" activeclassname="active">Registration</NavLink>
           </li>
         </>
       ) : (
-        <li className="nav-item">
-          <NavLink className="nav-link" to="/logout">Logout</NavLink>
-        </li>
+        <>
+          <li className="nav-item">
+            <NavLink className="nav-link" to="/logout" activeclassname="active">Logout</NavLink>
+          </li>
+        </>
       )}
     </>
   );
@@ -45,12 +46,20 @@ const Navbar = () => {
           alt="Logo"
           style={{
             width: "75px",
-            height: "75px",
+            height: "47px",
             marginRight: "2px",
           }}
         />
         <span>Mech AI</span>
       </NavLink>
+      
+      {/* Add Profile link here */}
+      {state && (
+        <NavLink className="navbar-brand" to="/profile">
+          Profile
+        </NavLink>
+      )}
+      
       <button
         className="navbar-toggler"
         type="button"

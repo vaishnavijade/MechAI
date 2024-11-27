@@ -1,24 +1,21 @@
+// authenticate.js
 const jwt = require("jsonwebtoken");
-const User=require("../model/userSchema");
 
-const authenticate = async (req, res, next) => {
-    try{
-        const token = req.cookies.jwtoken;
-        const verifyToken = jwt.verify(token, process.env.SECRET_KEY);
-        
-        const rootUser = await User.findOne({_id: verifyToken._id,"tokens.token":token});
+const authenticate = (req, res, next) => {
+  const token = req.headers.authorization?.split(' ')[1]; // Extract token from header
 
-        if(!rootUser) { throw new Error('User not found') }
+  if (!token) {
+    return res.status(401).json({ success: false, message: "No token provided" });
+  }
 
-        req.token = token;
-        req.rootUser = rootUser;
-        req.userID = rootUser._id;
+  try {
+    const verified = jwt.verify(token, process.env.SECRET_KEY);
+    req.userId = verified._id; // Attach user ID to request
+    next();
+  } catch (err) {
+    console.error("JWT verification failed:", err);
+    res.status(401).json({ success: false, message: "Token is invalid or expired" });
+  }
+};
 
-        next();
-
-    }catch(err){
-        res.status(401).send('Unauthorized:No token provided');
-        console.log(err);
-    }
-}
-module.exports = authenticate
+module.exports = authenticate;

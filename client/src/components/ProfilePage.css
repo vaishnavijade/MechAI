@@ -1,52 +1,133 @@
-/* Profile Page Styles */
-.profile-page {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background-color: #121212; /* Dark background */
-    color: #f0f0f0; /* Light text */
-  }
+.container {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  padding: 60px;
+  color: #333;
+  font-family: Arial, sans-serif;
   
-  .profile-card {
-    background-color: #1e1e1e; /* Dark background */
-    border-radius: 8px;
-    padding: 30px;
-    text-align: center;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6); /* Shadow for depth */
-    width: 320px;
-    max-width: 100%;
-  }
-  
-  .profile-card h2 {
-    font-size: 24px;
-    color: #f0f0f0; /* Light text */
-    margin-bottom: 10px;
-  }
-  
-  .profile-card p {
-    font-size: 16px;
-    color: #bbb; /* Light gray text */
-    margin: 5px 0;
-  }
-  
-  .profile-card .details span {
-    color: #007bff; /* Highlighted text color */
-  }
-  
-  .profile-card button {
-    background-color: #333; /* Dark button */
-    color: #fff;
-    border: 1px solid #555;
-    border-radius: 4px;
-    padding: 10px 20px;
-    cursor: pointer;
-    font-size: 14px;
-    margin-top: 20px;
-    transition: background-color 0.3s ease;
-  }
-  
-  .profile-card button:hover {
-    background-color: #444; /* Lighter button on hover */
-  }
-  
+  min-height: 100vh;
+  margin-top: 100px;
+}
+
+.profileSection {
+  flex: 0 0 auto;
+  width: 400px;
+  margin-right: 30px;
+}
+
+.profileCard {
+  background-color: #f5f5f5;
+  border-radius: 12px;
+  padding: 30px;
+  text-align: center;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+  min-height: 400px;
+}
+
+.avatar {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background-color: maroon;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.avatarText {
+  font-size: 48px;
+  color: #fff;
+}
+
+.username {
+  font-size: 24px;
+  margin: 20px 0;
+  color: #333;
+}
+
+.details {
+  font-size: 16px;
+  margin: 10px 0;
+  color: grey;
+}
+
+.textHighlight {
+  color: maroon;
+  font-weight: normal;
+}
+
+.buttonGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.updateButtonGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 25px;
+}
+
+.sectionTitle {
+  font-size: 24px;
+  margin-bottom: 25px;
+  color: #333;
+}
+
+.secondaryButton,
+.primaryButton,
+.cancelButton {
+  padding: 12px 25px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+  width: 100%;
+}
+
+.secondaryButton {
+  background-color: grey;
+  color: #fff;
+  border: 1px solid #999;
+}
+
+.primaryButton {
+  background-color: maroon;
+  color: #fff;
+  border: none;
+  margin-top: 13px;
+}
+
+.cancelButton {
+  background-color: grey;
+  color: #fff;
+  border: 1px solid #999;
+}
+
+.input {
+  width: 100%;
+  padding: 12px;
+  margin: 12px 0;
+  border-radius: 5px;
+  border: 1px solid grey;
+  background-color: #f5f5f5;
+  color: #333;
+  font-size: 16px;
+}
+
+.formSection {
+  flex: 1;
+  max-width: 600px;
+}
+
+.formCard {
+  background-color: #f5f5f5;
+  border-radius: 12px;
+  padding: 30px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+  min-height: 400px;
+}

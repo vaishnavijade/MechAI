@@ -19,7 +19,7 @@ const ForgotPassword = () => {
     setIsLoading(true);
 
     try {
-      const response = await fetch('/request-password-reset', {
+      const response = await fetch('/forgot-password', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

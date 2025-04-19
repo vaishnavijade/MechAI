@@ -91,15 +91,15 @@ git clone https://github.com/your-username/mech-ai.git
 cd mech-ai
 
 # Install server dependencies
-cd server
+cd mech-ai-backend
 npm install
 
 # Start the backend
-npm start
+npm run dev
 
 # Start React frontend
-cd ../client
+cd ../mech-ai-frontend
 npm install
-npm start
+npm run dev
 
 
